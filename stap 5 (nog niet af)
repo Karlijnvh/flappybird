@@ -362,18 +362,19 @@ def main(genomes, config):
                 for pipe in pipes:
                     #stap 5 "for bird in birds:" wordt twee keer toegevoegd
                     for bird in birds:
-                        pipe.move()
-                    # check for collision
+                    # check for collision, kijken of elke pipe botst met elke vogel
                         if pipe.collide(bird, win):
                             lost = True
 
                         if not pipe.passed and pipe.x < bird.x:
-                            #als de vogles voorbij de pijp zijn
+                            #checken of de vogels voorbij de pijp zijn
                             pipe.passed = True
                             add_pipe = True
                         
-                    if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+                        if pipe.x + pipe.PIPE_TOP.get_width() < 0:
                         rem.append(pipe)
+                        
+                        pipe.move()
 
                 if add_pipe:
                     score += 1
@@ -381,16 +382,19 @@ def main(genomes, config):
 
                 for r in rem:
                     pipes.remove(r)
-
-        for bird in birds:
-            if bird.y + bird_images[0].get_height() - 10 >= FLOOR:
-                break
-    
+                #of de vogels de grond raken
+                for bird in birds:
+                    if bird.y + bird_images[0].get_height() - 10 >= FLOOR:
+                        break
+            
+        base.mpve()
         draw_window(WIN, bird, pipes, base, score)
 
     end_screen(WIN)
-
-main(WIN)
+    pygame.quit()
+    quit()
+    
+main()
 
 #stap 2
 def run(config_file):
@@ -414,7 +418,7 @@ def run(config_file):
     
         #p.add_reporter(neat.Checkpointer(5))
 
-    # Hier runt het programma voor 50 generaties
+    # Hier runt het programma voor 50 generaties/ 50 keer
     winner = p.run(main, 50)    
     
 
