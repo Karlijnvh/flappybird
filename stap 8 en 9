@@ -397,7 +397,7 @@ def main(genomes, config):
                 if add_pipe:
                     score += 1
                     for genome in ge:
-                        genome.fitness += 5 # (stap8) verander de fitness met +5, zodat de vogels liever door de pipe heengaat ipv ertegenaan vliegt 
+                        genome.fitness += 5 # (stap 9)verander de fitness met +5 als de vogels erdoorheen komen en niet doodgaan, zodat de vogels liever door de pipe heengaan ipv ertegenaan vliegen 
                     pipes.append(Pipe(WIN_WIDTH))
 
                 for r in rem:
