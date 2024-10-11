@@ -357,17 +357,13 @@ def main(genomes, config):
                 pygame.quit()
                 quit()
                 break
-
-         pipe_ind = 0
-         if len(birds) > 0:
-            if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():  # stap 11
-                pipe_ind = 1                                                                 # 
-
-            if event.type == pygame.KEYDOWN and not lost:
-                if event.key == pygame.K_SPACE:
-                    if not start:
-                        start = True
-                    bird.jump()
+        #stap 11 
+        pipe_ind = 0 # als er geen verdere voorwaarden zijn wordt de eerste pijp gebruikt die in beeld is
+        if len(birds) > 0: #als het aantal vogels groter dan 0 is
+            if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():  #en als ze voorbij de eerste pijp zijn, en ze voorbij de breedte van de pijp zijn
+                pipe_ind = 1   #dan wordt de tweede pijp gebruikt
+            
+# Hier is een stukje code weggehaald, deze was niet nodig
 
         # Move Bird, base and pipes
         if start:
@@ -415,16 +411,15 @@ def main(genomes, config):
                         ge.pop(birds.index(bird))
                         birds.pop(birds.index(bird))
 
-                          draw_window(WIN, bird, pipes, base, score)           
-    if score > 25:        
-        base.move()
-
-
+                    draw_window(WIN, bird, pipes, base, score)           
+                if score > 25:        
+                    pickle.dump(nets[0],open("best.pickle", "wb"))
+                    break
     end_screen(WIN)
     pygame.quit()
     quit()
     
-main()
+
 
 #stap 2
 def run(config_file):
@@ -460,3 +455,4 @@ if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-feedforward.txt')
     run(config_path)
+
